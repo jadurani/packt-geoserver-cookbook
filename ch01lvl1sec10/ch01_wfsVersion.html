@@ -27,21 +27,15 @@
                 {layers: "NaturalEarth:blueMarble", format: "image/png", transparent: false}
               ),
 
-            new OpenLayers.Layer.Vector("countries", {
-              strategies: [new OpenLayers.Strategy.BBOX()],
-              protocol: new OpenLayers.Protocol.WFS.v1_1_0({
-                url: "http://localhost:8080/geoserver/wfs",
-                featurePrefix: "NaturalEarth",
-                featureType: "countries",
-                geometryName: "the_geom"
-              }),
-              styleMap: new OpenLayers.StyleMap({
-                strokeWidth: 3,
-                strokeColor: "#FF0000",
-                strokeWidth: 1,
-                fillColor: "#ee9900",
-                fillOpacity: 0.3
-              }),
+              new OpenLayers.Layer.Vector("countries", {
+                strategies: [new OpenLayers.Strategy.BBOX()],
+                protocol: new OpenLayers.Protocol.WFS.v1_1_0({
+                  url: "http://localhost:8080/geoserver/wfs",
+                  featurePrefix: "NaturalEarth",
+                  featureType: "countries",
+                  geometryName: "the_geom",
+                  outputFormat: "JSON",
+                })
             }),
           ],
           center: [12.48, 42.60],
