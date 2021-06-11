@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Dealing with WFS version</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+      #myMap {
+        clear: both;
+        position: relative;
+        width: 750px;
+        height: 450px;
+        border: 1px solid black;
+      }
+    </style>
+      <script type="text/javascript" src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>
+      <script type="text/javascript">
+        function init() {
+          map = new OpenLayers.Map({
+            div: "myMap",
+            //We don't want any layers as base map
+            allOverlays: true,
+            layers: [
+            new OpenLayers.Layer.WMS("Blue Marble",
+              "http://localhost/geoserver/wms",
+              {layers: "NaturalEarth:blueMarble", format: "image/png", transparent: false}
+            ),
+            new OpenLayers.Layer.Vector("countries", {
+              strategies: [new OpenLayers.Strategy.BBOX()],
+              protocol: new OpenLayers.Protocol.WFS({
+                url: "http://localhost/geoserver/wfs",
+                featureType: "countries",
+                featureNS: "http://www.naturalearthdata.com/",
+                // Mind the geometry column name
+                geometryName: "geom"
+              }),
+              styleMap: new OpenLayers.StyleMap({
+                strokeWidth: 3,
+                strokeColor: "#FF0000",
+                strokeWidth: 1,
+                fillColor: "#ee9900",
+                fillOpacity: 0.3
+              }),
+            })
+          ],
+          center: [12.48, 42.60],
+          zoom: 4
+        });
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="myMap"></div>
+  </body>
+</html>
