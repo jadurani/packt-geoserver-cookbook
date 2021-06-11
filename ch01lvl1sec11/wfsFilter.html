@@ -17,38 +17,133 @@
 
     <script type="text/javascript">
         function init() {
+          const lowIncome =
+            new OpenLayers.Layer.Vector("Low income Countries", {
+              strategies: [new OpenLayers.Strategy.BBOX()],
+              protocol: new OpenLayers.Protocol.WFS({
+                url: "http://localhost:8080/geoserver/wfs",
+                featurePrefix: "NaturalEarth",
+                featureType: "countries",
+                geometryName: "the_geom",
+              }),
+              styleMap: new OpenLayers.StyleMap({
+                strokeWidth: 3,
+                strokeColor: "#000000",
+                strokeWidth: 1,
+                fillColor: "#ffffcc",
+                fillOpacity: 1
+              }),
+              filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                  new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: "INCOME_GRP",
+                    value: "5. Low income"
+                  }),
+                ]
+              })
+            });
+
+          const lowMiddleIncome =
+            new OpenLayers.Layer.Vector("Low middle income Countries", {
+              strategies: [new OpenLayers.Strategy.BBOX()],
+              protocol: new OpenLayers.Protocol.WFS({
+                url: "http://localhost:8080/geoserver/wfs",
+                featurePrefix: "NaturalEarth",
+                featureType: "countries",
+                geometryName: "the_geom",
+              }),
+              styleMap: new OpenLayers.StyleMap({
+                strokeWidth: 3,
+                strokeColor: "#000000",
+                strokeWidth: 1,
+                fillColor: "#c2e699",
+                fillOpacity: 1
+              }),
+              filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                  new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: "INCOME_GRP",
+                    value: "4. Low middle income"
+                  }),
+                ]
+              })
+            });
+
+          const upperMiddleIncome =
+            new OpenLayers.Layer.Vector("Upper middle income Countries", {
+              strategies: [new OpenLayers.Strategy.BBOX()],
+              protocol: new OpenLayers.Protocol.WFS({
+                url: "http://localhost:8080/geoserver/wfs",
+                featurePrefix: "NaturalEarth",
+                featureType: "countries",
+                geometryName: "the_geom",
+              }),
+              styleMap: new OpenLayers.StyleMap({
+                strokeWidth: 3,
+                strokeColor: "#000000",
+                strokeWidth: 1,
+                fillColor: "#78c679",
+                fillOpacity: 1
+              }),
+              filter: new OpenLayers.Filter.Logical({
+                type: OpenLayers.Filter.Logical.AND,
+                filters: [
+                  new OpenLayers.Filter.Comparison({
+                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                    property: "INCOME_GRP",
+                    value: "3. Upper middle income"
+                  }),
+                ]
+              })
+            });
+
+          const highIncome =
+            new OpenLayers.Layer.Vector("High income Countries", {
+              strategies: [new OpenLayers.Strategy.BBOX()],
+              protocol: new OpenLayers.Protocol.WFS({
+                url: "http://localhost:8080/geoserver/wfs",
+                featurePrefix: "NaturalEarth",
+                featureType: "countries",
+                geometryName: "the_geom",
+              }),
+              styleMap: new OpenLayers.StyleMap({
+                strokeWidth: 3,
+                strokeColor: "#000000",
+                strokeWidth: 1,
+                fillColor: "#238443",
+                fillOpacity: 1
+              }),
+              filter: new OpenLayers.Filter.Logical({
+              type: OpenLayers.Filter.Logical.OR,
+              filters: [
+                new OpenLayers.Filter.Comparison({
+                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                  property: "INCOME_GRP",
+                  value: " 1. High income: OECD"
+                }),
+                new OpenLayers.Filter.Comparison({
+                  type: OpenLayers.Filter.Comparison.EQUAL_TO,
+                  property: "INCOME_GRP",
+                  value: " 2. High income: nonOECD"
+                })
+              ]
+            })
+          });
+
           map = new OpenLayers.Map({
             div: "myMap",
             //We don't want any layers as base map
             allOverlays: true,
             layers: [
-              new OpenLayers.Layer.Vector("Low income Countries", {
-                strategies: [new OpenLayers.Strategy.BBOX()],
-                protocol: new OpenLayers.Protocol.WFS({
-                  url: "http://localhost:8080/geoserver/wfs",
-                  featurePrefix: "NaturalEarth",
-                  featureType: "countries",
-                  geometryName: "the_geom",
-                }),
-                styleMap: new OpenLayers.StyleMap({
-                  strokeWidth: 3,
-                  strokeColor: "#000000",
-                  strokeWidth: 1,
-                  fillColor: "#ffffcc",
-                  fillOpacity: 1
-                }),
-                filter: new OpenLayers.Filter.Logical({
-                  type: OpenLayers.Filter.Logical.AND,
-                  filters: [
-                    new OpenLayers.Filter.Comparison({
-                      type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                      property: "INCOME_GRP",
-                      value: "5. Low income"
-                    }),
-                  ]
-                })
-              }),
-          ],
+              lowIncome,
+              lowMiddleIncome,
+              upperMiddleIncome,
+              highIncome
+            ],
           center: [12.48, 42.60],
           zoom: 4
         });
